@@ -12,7 +12,7 @@ class DocumentController extends Controller
 		if ($author === null){
 			$author = Yii::app()->user->getId();
 		}
-		$documents = new CActiveDataProvider('document', array('criteria'=>array('condition'=>'author='.$author)));
+		$documents = new CActiveDataProvider('Document', array('criteria'=>array('condition'=>'author='.$author)));
 		$this->render('index', array('documents'=>$documents));
 	}
 

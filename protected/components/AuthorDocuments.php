@@ -5,7 +5,7 @@ class AuthorDocuments extends CPortlet {
 	
 	public function getUserDocuments(){
 		$author = Yii::app()->user->id;
-		$documents = Document::model()->
+		$documents = new CActiveDataProvider('Document', array('criteria'=>array('condition'=>'author='.$author)));
 		return $documents;
 	}
 	
