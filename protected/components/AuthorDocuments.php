@@ -9,6 +9,17 @@ class AuthorDocuments extends CPortlet {
 		return $documents;
 	}
 	
+	public function getUserDocumentsMenu($key = 'id', $value = 'title'){
+		$documents = $this->getUserDocuments()->getData();
+		
+		$return = array();
+		foreach ($documents as $document){
+			
+			$return[$document->$key] = $document->$value;
+		}
+		return $return;
+	}
+	
 	public function renderContent(){
 		$this->render('AllDocuments');
 	}

@@ -69,7 +69,8 @@ class SectionController extends Controller
 		}
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		$documents = $this->_getDocuments();
+		$documentsHelper = new AuthorDocuments();
+		$documents = $documentsHelper->getUserDocumentsMenu();
 		if(isset($_POST['Section']))
 		{
 			$model->attributes=$_POST['Section'];
@@ -95,7 +96,8 @@ class SectionController extends Controller
 		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		$documents = $this->_getDocuments();
+		$documentsHelper = new AuthorDocuments();
+		$documents = $documentsHelper->getUserDocumentsMenu();
 		if(isset($_POST['Section']))
 		{
 			$model->attributes=$_POST['Section'];
