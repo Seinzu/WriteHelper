@@ -50,7 +50,7 @@ class SectionController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$texts = new CActiveDataProvider('text', array('criteria'=>array('condition'=>'section='.$id)));
+		$texts = new CActiveDataProvider('Text', array('criteria'=>array('condition'=>'section='.$id)));
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 			'texts'=>$texts

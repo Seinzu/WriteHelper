@@ -46,7 +46,7 @@ class TextController extends Controller
 
 	protected function _getSections(){
 		$author = Yii::app()->user->getId();
-		$sections = new CActiveDataProvider('section', array('criteria'=>array('condition'=>'author='.$author, 'with'=>'document')));
+		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'author='.$author, 'with'=>'document')));
 		$data = $sections->getData();
 		$sections = array(0=>'No Section');
 		foreach ($data as $section){

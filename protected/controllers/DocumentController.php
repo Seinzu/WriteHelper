@@ -31,7 +31,7 @@ class DocumentController extends Controller
 	public function actionView($id)
 	{
 		$document = $this->loadModel($id);
-		$sections = new CActiveDataProvider('section', array('criteria'=>array('condition'=>'document=' . $id)));
+		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'document=' . $id)));
 		$this->render('view', array('model'=>$document, 'sections'=>$sections));
 	}
 	
