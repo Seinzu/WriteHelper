@@ -27,7 +27,7 @@ if (!isset($sections)){
         'model'=>$model,
         'attribute'=>'text',
         'htmlOptions'=>array('rows'=>40, 'cols'=>110),
-        'previewRequest'=>'post/preview')); ?>
+        'previewRequest'=>'text/preview')); ?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
