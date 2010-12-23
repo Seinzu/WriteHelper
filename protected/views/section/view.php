@@ -23,3 +23,6 @@ $this->menu=array(
 	'itemView'=>'../text/_view',
 ));?>
 <p><?php echo CHtml::link('Add a new text',array('/text/create/', 'section'=>$model->id));?></p>
+
+
+<h2>Preview</h2>

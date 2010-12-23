@@ -3,7 +3,12 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'text-form',
 	'enableAjaxValidation'=>false,
-)); ?>
+)); 
+if (!isset($sections)){
+	// cover for situations where sections wasn't set
+	$sections = array();
+}
+?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -16,11 +21,13 @@
 	</div>
 	
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'text'); ?>
-		<?php echo $form->textArea($model,'text',array('rows'=>40, 'cols'=>110)); ?>
-		<?php echo $form->error($model,'text'); ?>
-	</div>
+	<?php $this->widget(
+    'application.extensions.ddeditor.DDEditor',
+    array(
+        'model'=>$model,
+        'attribute'=>'text',
+        'htmlOptions'=>array('rows'=>40, 'cols'=>110),
+        'previewRequest'=>'post/preview')); ?>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

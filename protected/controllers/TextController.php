@@ -104,7 +104,7 @@ class TextController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		$sections = $this->_getSections();
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -117,6 +117,7 @@ class TextController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
+			'sections'=>$sections,
 		));
 	}
 
