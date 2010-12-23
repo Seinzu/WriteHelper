@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 <?php if (!empty($sections)){
 	 $this->widget('zii.widgets.CListView', array(
 		'dataProvider'=>$sections,
-		'itemView'=> '_view',
+		'itemView'=> '../section/_view',
 	)); 
 }?>
 

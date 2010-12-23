@@ -1,12 +1,11 @@
 <div class="view">
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
+	<?php echo CHtml::link(CHtml::encode($data->title), array('view', 'id'=>$data->id)); ?>
 	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('document')); ?>:</b>
-	<?php echo CHtml::encode($data->document); ?>
-	<br />
+	<?php if (get_class($this) == 'SectionController') {
+			// do specific things we want to do when we are in a section
+		?>
 	
+	<?php }?>
 
 
 </div>

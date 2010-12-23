@@ -11,7 +11,6 @@ class AuthorDocuments extends CPortlet {
 	
 	public function getUserDocumentsMenu($key = 'id', $value = 'title'){
 		$documents = $this->getUserDocuments()->getData();
-		
 		$return = array();
 		foreach ($documents as $document){
 			
