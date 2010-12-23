@@ -13,15 +13,9 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Section #<?php echo $model->id; ?></h1>
+<h1>View Section <?php echo $model->title; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'document',
-	),
-)); ?>
+
 
 <h2>Texts</h2>
 <?php $this->widget('zii.widgets.CListView', array(
