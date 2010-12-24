@@ -22,14 +22,17 @@ class UserIdentity extends CUserIdentity
 	{
 		$username=strtolower($this->username);
 		$user=Author::model()->find('LOWER(username)=?',array($username));
-		if(empty($user))
+		if(empty($user) || !isset($user->username)){
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($user->validatePassword($this->password) === false)
+		}
+		else if($user->validatePassword($this->password) === false){
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-		else
+		}
+		else {
 			$this->_id = $user->id;
 			$this->username = $user->username;
 			$this->errorCode=self::ERROR_NONE;
+		}
 		return !$this->errorCode;
 	}
 	
