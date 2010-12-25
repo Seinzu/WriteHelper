@@ -23,3 +23,7 @@ $this->menu=array(
 		'section',
 	),
 )); ?>
+
+<h2>Tags</h2>
+
+<?php $this->widget('TagWidget', array('item'=>$model->id, 'itemType'=>'text'))?>

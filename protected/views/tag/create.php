@@ -12,4 +12,4 @@ $this->menu=array(
 
 <h1>Create Tag</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'tagtypes'=>$tagtypes)); ?>

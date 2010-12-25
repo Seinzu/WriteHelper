@@ -25,6 +25,7 @@ class TagController extends Controller
 	 */
 	public function accessRules()
 	{
+		
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
@@ -62,7 +63,7 @@ class TagController extends Controller
 	public function actionCreate()
 	{
 		$model=new Tag;
-
+		$tagoptions = $this->getTagTypes(true);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -75,6 +76,7 @@ class TagController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
+			'tagtypes'=>$tagoptions,
 		));
 	}
 
@@ -86,7 +88,7 @@ class TagController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		$tagoptions = $this->getTagTypes(true);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -99,6 +101,7 @@ class TagController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
+			'tagtypes'=>$tagoptions,
 		));
 	}
 
@@ -160,7 +163,19 @@ class TagController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-
+	
+	protected function getTagTypes($menu = false){
+		$results = TagType::model()->findAll();
+		if ($menu){
+			$return = array();
+			foreach ($results as $result){
+				$return[$result->id] = $result->title;
+			}
+			$results = $return;
+		}
+		return $results;
+	}
+	
 	/**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated

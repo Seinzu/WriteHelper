@@ -17,7 +17,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->textField($model,'type',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->dropDownList($model,'type', $tagtypes); ?>
 		<?php echo $form->error($model,'type'); ?>
 	</div>
 

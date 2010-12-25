@@ -25,10 +25,11 @@ class TextController extends Controller
 	 */
 	public function accessRules()
 	{
+		$name = Yii::app()->user->name;
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'users'=>array('*'),
+				'users'=>array($name),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update', 'preview'),
@@ -61,9 +62,6 @@ class TextController extends Controller
 	 */
 	public function actionView($id)
 	{
-		
-		
-		
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));

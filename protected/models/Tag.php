@@ -35,12 +35,12 @@ class Tag extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, parent', 'required'),
-			array('parent', 'numerical', 'integerOnly'=>true),
+			array('name, type', 'required'),
+			array('type', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, parent', 'safe', 'on'=>'search'),
+			array('id, name, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,6 +52,8 @@ class Tag extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+				'TagType'=>array(self::BELONGS_TO, 'TagType', 'type'),
+				'TagInstance'=>array(self::HAS_MANY, 'TagInstance', 'tag')	
 		);
 	}
 
@@ -63,7 +65,7 @@ class Tag extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
-			'parent' => 'Parent',
+			'type' => 'Type',
 		);
 	}
 
@@ -80,7 +82,7 @@ class Tag extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('parent',$this->parent);
+		$criteria->compare('type',$this->type);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
