@@ -23,9 +23,6 @@
 				<p><?php echo CHtml::link('close','#', array('onclick'=>'$("#textForm'.$data->id.'").hide();return false;'));?></p>
 				<?php echo $this->renderPartial('//text/_form', array('model'=>new Text, 'forcedSection'=>$data->id,'return'=>'textStatus', 'ajax'=>true, 'sections'=>false)); ?>
 			</div>
-			<script type='text/javascript'>
-				$("textForm<?php echo $data->id;?>").hide();
-			</script>
 	<?php } ?>
 
 

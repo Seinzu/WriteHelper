@@ -28,13 +28,24 @@ $this->breadcrumbs=array(
 	function sectionStatus(data, status, request){
 		$('#sectionForm').hide();
 		if (data != false){
-			$.fn.yiiListView.update('sectionListWidget');
+			var options = new Array();
+			options["afterAjaxUpdate"] = 'hideAll';
+			$.fn.yiiListView.update('sectionListWidget', options);
 			$('.hidden').hide();
 		}
 	}
 
-	function textStatus(data, status, request){
+	function hideAll(){
+		$('.hidden').hide();
+	}
 		
+	function textStatus(data, status, request){
+		var data = eval(data);
+		if (data[1] == true){
+			var options = new Array();
+			$('#textForm' + data[0]).hide();
+			$.fn.yiiListView.update('textListWidget' + data[0], options);
+		}
 	}
 	
 </script>

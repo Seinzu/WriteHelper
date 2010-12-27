@@ -34,7 +34,7 @@ if (!isset($sections)){
     	array(
     	    'model'=>$model,
     	    'attribute'=>'text',
-    	    'htmlOptions'=>array('rows'=>40, 'cols'=>110),
+    	    'htmlOptions'=>array('rows'=>20, 'cols'=>110),
     	    'previewRequest'=>'text/preview')); ?>
 	<div class="row buttons">
 	
@@ -46,7 +46,7 @@ if (!isset($sections)){
 			if (isset($return)){
 				$options['success'] = $return;
 			}
-			echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/createSection')), $options);
+			echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/createText')), $options);
 		  	 
 		  }?>
 	</div>
