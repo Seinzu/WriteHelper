@@ -52,6 +52,7 @@ class Text extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 					'section'=>array(self::BELONGS_TO, 'Section', 'section'),
+					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'text')
 		);
 	}
 

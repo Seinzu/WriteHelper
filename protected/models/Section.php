@@ -52,6 +52,8 @@ class Section extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array('document'=>array(self::BELONGS_TO, 'Document', 'document'),
 					 'text'=>array(self::HAS_MANY, 'Text', 'section'),
+					'documentsections'=>array(self::HAS_MANY, 'DocumentSections', 'section'),
+					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'section')
 		);
 	}
 
@@ -66,6 +68,27 @@ class Section extends CActiveRecord
 		);
 	}
 
+	/** 
+	 * Extends afterSave hook, currently used to insert the current section into the next slot on
+	 * the document sections order list.
+	 */
+	public function afterSave(){
+		parent::afterSave();
+		$sectionRecordCount = DocumentSections::model()->count('section = :section', array("section"=>$this->id));
+		if ($sectionRecordCount == 0 && $this->document > 0){
+				
+			$ds = new DocumentSections;
+			$nextorder = $ds->findHighestGap($this->document);
+			if ($nextorder === null)
+				$nextorder = 1;
+			
+			$ds->attributes = array('id'=>null, 'document'=>(int)$this->document, 'section'=>(int)$this->id, 'order'=>(int)$nextorder);
+			return $ds->save();
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

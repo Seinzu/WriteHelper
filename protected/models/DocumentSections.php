@@ -20,6 +20,12 @@ class DocumentSections extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public function findHighestGap($document){
+		$document = (int) $document;
+		$order = $this->getDbConnection()->createCommand('SELECT MAX(`order`) FROM `document_sections` WHERE document=' . $document)->queryScalar();
+		return $order;
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -40,7 +46,7 @@ class DocumentSections extends CActiveRecord
 			array('document, section, order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, document, section, order', 'safe', 'on'=>'search'),
+			array('document, section, order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,6 +58,9 @@ class DocumentSections extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+					'document'=>array(self::BELONGS_TO, 'Document', 'document'),
+					'section'=>array(self::BELONGS_TO, 'Section', 'section'),
+					
 		);
 	}
 
