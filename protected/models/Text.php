@@ -67,6 +67,26 @@ class Text extends CActiveRecord
 			'section' => 'Section',
 		);
 	}
+	
+	/** 
+	 * Extends afterSave hook, currently used to insert the current section into the next slot on
+	 * the document sections order list.
+	 */
+	public function afterSave(){
+		parent::afterSave();
+		$textRecordCount = SectionTexts::model()->count('text = :text', array("text"=>$this->id));
+		if ($textRecordCount == 0 && $this->section > 0){
+				
+			$st = new SectionTexts;
+			$nextorder = $st->findHighestGap($this->section);
+			if ($nextorder === null)
+				$nextorder = 1;
+			
+			$st->attributes = array('id'=>null, 'section'=>(int)$this->section, 'text'=>(int)$this->id, 'order'=>(int)$nextorder);
+			return $st->save();
+		}
+		return true;
+	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
