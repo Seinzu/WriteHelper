@@ -31,7 +31,7 @@ class SectionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'order'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -41,6 +41,7 @@ class SectionController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			
 		);
 	}
 
@@ -57,6 +58,11 @@ class SectionController extends Controller
 		));
 	}
 
+	public function actionOrder($id){
+		$sectiontexts = SectionTexts::model()->findAll('section=:section', array('section'=>$id));
+		$this->render('order', array('model'=>$this->loadModel($id), 'sectiontexts'=>$sectiontexts));
+	}
+	
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.

@@ -19,11 +19,12 @@ class SectionTexts extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
 
 	public function findHighestGap($section){
 		$section = (int) $section;
 		$order = $this->getDbConnection()->createCommand('SELECT MAX(`order`) FROM `section_texts` WHERE section=' . $section)->queryScalar();
-		return $order;
+		return $order+1;
 	}
 	
 	/**

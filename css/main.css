@@ -231,3 +231,21 @@ div.search-form
 .hidden {
 	display:none;
 }
+
+.dragThing .draggables {
+	float: left;
+	clear: right;
+	margin-left: 20px;
+}
+
+.dragThing .targets .ui-droppable {
+	border: 1px dotted #000;
+	width: 100px;
+	height: 30px;
+	margin-bottom: 10px;
+}
+
+.dragThing .targets {
+	float: left;
+	clear: left;
+}
