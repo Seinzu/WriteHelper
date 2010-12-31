@@ -26,4 +26,4 @@ $this->menu=array(
 
 <h2>Tags</h2>
 
-<?php $this->widget('TagWidget', array('item'=>$model->id, 'itemType'=>'text'))?>
+<?php //$this->widget('TagWidget', array('item'=>$model->id, 'itemType'=>'text'))?>

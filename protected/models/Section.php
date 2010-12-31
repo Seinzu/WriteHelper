@@ -81,7 +81,8 @@ class Section extends CActiveRecord
 			$nextorder = $ds->findHighestGap($this->document);
 			if ($nextorder === null)
 				$nextorder = 1;
-			
+			else 
+				$nextorder++;
 			$ds->attributes = array('id'=>null, 'document'=>(int)$this->document, 'section'=>(int)$this->id, 'order'=>(int)$nextorder);
 			return $ds->save();
 		}

@@ -37,11 +37,14 @@ class AjaxController extends CController
 		echo ($success) ? "true" : "false";
 	}
 	
-	public function actionCreateText(){
-		$model = new Text;
+	public function actionSaveText(){
+		if (isset($_POST['textid']))
+			$model = Text::model()->findByPk((int)$_POST['textid']);
+		else 
+			$model = new Text;
+			
 		if (isset($_POST['Text'])){
 			$model->attributes = $_POST['Text'];
-			
 			if ($model->save()){
 				echo json_encode(array($_POST['Text']['section'], true));
 			}
@@ -50,5 +53,6 @@ class AjaxController extends CController
 			}
 		}
 	}
+	
 	
 }

@@ -27,7 +27,6 @@
 		<?php echo $form->textField($model, 'title');?>
 		<?php echo $form->error($model, 'title');?>
 	</div>
-	
 	<?php if ($ajax !== true) {?>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

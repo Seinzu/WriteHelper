@@ -32,5 +32,3 @@ $this->widget('zii.widgets.jui.CJuiSortable', array(
 
 ?>
 </div>
-
-</div>

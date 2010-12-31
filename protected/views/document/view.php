@@ -17,12 +17,16 @@ $this->breadcrumbs=array(
 	foreach ($sectionData as $section){
 		if (!is_string($section)){
 			$tabs['section' . $i] = array('title'=>$section->title,
-										'view'=>'//section/_view',
-										'data'=>array('data'=>$section));
+										'view'=>'//section/view',
+										'data'=>array('model'=>Section::model()->find('id=:section', array("section"=>$section->id)))
+										);
 			$i++;
 		}
 	}
-
+	$tabs['newsection'] = array('title'=>'Add a section',
+								'view'=>'//section/_form',
+								'data'=>array('model'=>new Section, 'documents'=>false, 'ajax'=>true, 'forcedDocument'=>$model->id)
+								);
 ?>
 
 
@@ -37,6 +41,7 @@ $this->breadcrumbs=array(
 			var options = new Array();
 			options["afterAjaxUpdate"] = 'hideAll';
 			$.fn.yiiListView.update('sectionListWidget', options);
+			
 			$('.hidden').hide();
 		}
 	}

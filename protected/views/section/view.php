@@ -14,15 +14,27 @@ $this->menu=array(
 ?>
 
 <h1>View Section <?php echo $model->title; ?></h1>
-
-
-
-<h2>Texts</h2>
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$texts,
-	'itemView'=>'../text/_view',
-));?>
-<p><?php echo CHtml::link('Add a new text',array('/text/create/', 'section'=>$model->id));?></p>
-
-
-<h2>Preview</h2>
+<?php
+$sections  = Text::getAvailableSections();
+	 	  	$texts = new CActiveDataProvider('Text', array('criteria'=>array('condition'=>'section=' . $model->id)));
+	 	  	if (method_exists($texts, "getData")){
+		  		$textData = $texts->getData();
+	 	  	}
+	 	  	else {
+	 	  		$textData = false;
+	 	  	}
+		  	$tabs = array();
+		  	$viewData = array();
+		  	$tabs['overview'] = array('title'=>'Overview', 'view'=>'//section/_display', 'data'=>array('data'=>$model, "texts"=>$texts, 'textData'=>$textData));
+	 	  	$i = 1;
+		  	if (!empty($textData)){
+		  		foreach ($textData as $text){
+	 	  			$tabs["text" . $i] = array('title'=>'Edit text ' . $i, 'view'=>'//text/_form', 'data'=>array('id'=>$text->id, 'sections'=>$sections,'model'=>Text::model()->find('id=:id', array('id'=>$text->id))));
+	 	  			$i++;
+		  		}
+	 	  	}
+	 	  	$tabs['addtext'] = array('title'=>'Add a new text', 'view'=>'//text/_form', 'data'=>array('model'=>new Text, 'sections'=>$sections, 'ajax'=>true));
+	?>
+	
+		  	
+			<?php $this->widget('CTabView', array('tabs'=>$tabs, 'viewData'=>$viewData));?>

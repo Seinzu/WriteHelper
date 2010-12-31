@@ -89,6 +89,23 @@ class Document extends CActiveRecord
 		));
 	}
 	
+	public static function getAvailableDocuments(){
+		$author = Yii::app()->user->id;
+		$documents = new CActiveDataProvider('Document', array('criteria'=>array('condition'=>'author='.$author)));
+		return $documents;
+	}
+	
+	public static function getAvailableDocumentsMenu(){
+		$docs = Document::getAvailableDocuments();
+		$returnDocs = array();
+		if ($data = $docs->getData()){
+			foreach ($data as $doc){
+				$returnDocs[$doc->id] = $doc->title;
+			}
+		}
+		return $returnDocs;
+	}
+	
 	protected function beforeSave(){
 		if(parent::beforeSave())
 		    {

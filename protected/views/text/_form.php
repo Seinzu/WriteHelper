@@ -8,6 +8,11 @@ if (!isset($sections)){
 	// cover for situations where sections wasn't set
 	$sections = array();
 }
+if (isset($id)){
+	?>
+	<input type='hidden' id='textid' name='textid' value='<?php echo $id;?>' />
+	<?php 
+}
 ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -46,7 +51,7 @@ if (!isset($sections)){
 			if (isset($return)){
 				$options['success'] = $return;
 			}
-			echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/createText')), $options);
+			echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/saveText')), $options);
 		  	 
 		  }?>
 	</div>

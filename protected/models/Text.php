@@ -87,6 +87,17 @@ class Text extends CActiveRecord
 		}
 		return true;
 	}
+	
+	public static function getAvailableSections(){
+		$author = Yii::app()->user->getId();
+		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'author='.$author, 'with'=>'document')));
+		$data = $sections->getData();
+		$sections = array(0=>'No Section');
+		foreach ($data as $section){
+			$sections[$section->id] = $section->title;
+		}
+		return $sections;
+	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

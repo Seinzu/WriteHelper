@@ -15,4 +15,4 @@ $this->menu=array(
 
 <h1>Update Text <?php echo $model->id; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model, "sections"=>$sections)); ?>
+<?php echo $this->renderPartial('//text/_form', array('model'=>$model, "sections"=>$sections)); ?>
