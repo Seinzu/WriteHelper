@@ -6,22 +6,28 @@ $this->breadcrumbs=array(
 
 <h1>View Document <?php echo $model->title; ?></h1>
 
-<h2>Sections</h2>
+<?php 
+	$viewData = array('sections'=>$sections);
+	$tabs = array();
+	$tabs['wholedocument'] = array('title'=>'Whole Document',
+									'view'=>'_display',
+									'data'=>array('sections'=>$sections, 'model'=>$model));
+	$i = 1;
+	$sectionData = $sections->getData();
+	foreach ($sectionData as $section){
+		if (!is_string($section)){
+			$tabs['section' . $i] = array('title'=>$section->title,
+										'view'=>'//section/_view',
+										'data'=>array('data'=>$section));
+			$i++;
+		}
+	}
 
-<?php
-	$this->widget('zii.widgets.CListView', array(
-		'dataProvider'=>$sections,
-		'itemView'=> '../section/_view',
-		'id'=>'sectionListWidget',
-	));
 ?>
 
-<p><?php echo CHtml::link('Add a section','#', array('onclick'=>'$("#sectionForm").show();return false;'));?></p>
-<div class='hidden' id='sectionForm'>
-	<p><?php echo CHtml::link('close','#', array('onclick'=>'$("#sectionForm").hide();return false;'));?></p>
-	<?php echo $this->renderPartial('//section/_form', array('model'=>new Section, 'forcedDocument'=>$model->id,'return'=>'sectionStatus', 'ajax'=>true, 'documents'=>false)); ?>
-</div>
-<div id='req'></div>
+
+<?php $this->widget('CTabView', array('tabs'=>$tabs, 'viewData'=>$viewData));?>
+
 <script type='text/javascript'>
 	$('.hidden').hide();
 
