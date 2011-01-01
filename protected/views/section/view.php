@@ -29,11 +29,11 @@ $sections  = Text::getAvailableSections();
 	 	  	$i = 1;
 		  	if (!empty($textData)){
 		  		foreach ($textData as $text){
-	 	  			$tabs["text" . $i] = array('title'=>'Edit text ' . $i, 'view'=>'//text/_form', 'data'=>array('id'=>$text->id, 'sections'=>$sections,'model'=>Text::model()->find('id=:id', array('id'=>$text->id))));
+	 	  			$tabs["section" .$model->id . "text" . $i] = array('title'=>'Edit text ' . $i, 'view'=>'//text/_form', 'data'=>array('id'=>$text->id, 'sections'=>$sections,'model'=>Text::model()->find('id=:id', array('id'=>$text->id))));
 	 	  			$i++;
 		  		}
 	 	  	}
-	 	  	$tabs['addtext'] = array('title'=>'Add a new text', 'view'=>'//text/_form', 'data'=>array('model'=>new Text, 'sections'=>$sections, 'ajax'=>true));
+	 	  	$tabs['section'.$model->id.'addtext'] = array('title'=>'Add a new text', 'view'=>'//text/_form', 'data'=>array('model'=>new Text, 'sections'=>$sections, 'ajax'=>true));
 	?>
 	
 		  	
