@@ -68,6 +68,11 @@ class Text extends CActiveRecord
 		);
 	}
 	
+	public function beforeSave(){
+		$this->modified = new CDbExpression('NOW()');
+		return parent::beforeSave();
+	}
+	
 	/** 
 	 * Extends afterSave hook, currently used to insert the current section into the next slot on
 	 * the document sections order list.

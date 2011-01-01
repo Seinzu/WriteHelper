@@ -65,6 +65,11 @@ class Revisions extends CActiveRecord
 			'contents' => 'Contents',
 		);
 	}
+	
+	public function beforeSave(){
+		$this->modified = new CDbExpression('NOW()');
+		return parent::beforeSave();
+	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
