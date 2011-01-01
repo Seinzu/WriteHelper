@@ -8,10 +8,10 @@ class AjaxController extends CController
 		if(isset($_POST['Section'])){
 			$model->attributes=$_POST['Section'];
 			if($model->save()){
-				echo json_encode(true);
+				echo json_encode(array(true, 'Session created'));
 			}
 			else {
-				echo json_encode(false);
+				echo json_encode(array(false, 'Error encountered while saving'));
 			}
 		}
 	}
@@ -20,11 +20,11 @@ class AjaxController extends CController
 		if (isset($_POST['section']))
 			$section = $_POST['section'];
 		else
-			die('false no section');
+			die(json_encode(array(false, 'Needs to provide session information')));
 		if (isset($_POST['sortArray']))
 			$sortArray = $_POST['sortArray'];
 		else 
-			die('false no order');
+			die(json_encode(array(false, 'Needs to provide sort information')));
 		// delete existing sort records - this might be refactored later to not require deletion
 		$deletion = SectionTexts::model()->deleteAll('section=:section', array('section'=>$section));
 		$success = true;

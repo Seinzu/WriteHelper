@@ -74,6 +74,11 @@ class Text extends CActiveRecord
 	 */
 	public function afterSave(){
 		parent::afterSave();
+		// insert a record into the revisions table
+		$revision = new Revisions;
+		$revision->attributes = array("textid"=>$this->id, 'contents'=>$this->text);
+		$revision->save();
+		// Put this record into the current section
 		$textRecordCount = SectionTexts::model()->count('text = :text', array("text"=>$this->id));
 		if ($textRecordCount == 0 && $this->section > 0){
 				

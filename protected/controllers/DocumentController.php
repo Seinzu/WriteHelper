@@ -31,8 +31,14 @@ class DocumentController extends Controller
 	public function actionView($id)
 	{
 		$document = $this->loadModel($id);
-		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'document=' . $id)));
-		$this->render('view', array('model'=>$document, 'sections'=>$sections));
+		// it's hacky permissions time @todo proper permissions functionality
+		if ($document->author == Yii::app()->user->getId()){
+			$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'document=' . $id)));
+			$this->render('view', array('model'=>$document, 'sections'=>$sections));
+		}
+		else {
+			$this->render('error', array('message'=>'Permission denied'));
+		}
 	}
 	
 	/**

@@ -58,5 +58,10 @@ $this->breadcrumbs=array(
 			$.fn.yiiListView.update('textListWidget' + data[0], options);
 		}
 	}
+
+	function getCurrentTab(tabid){
+		var currentTab = $("div#"+tabid+" > ul.tabs > li > a.active");
+		var href = currentTab.attr('href');
+	}
 	
 </script>

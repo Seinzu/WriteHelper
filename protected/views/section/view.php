@@ -25,7 +25,7 @@ $sections  = Text::getAvailableSections();
 	 	  	}
 		  	$tabs = array();
 		  	$viewData = array();
-		  	$tabs['overview'] = array('title'=>'Overview', 'view'=>'//section/_display', 'data'=>array('data'=>$model, "texts"=>$texts, 'textData'=>$textData));
+		  	$tabs['section'.$model->id.'overview'] = array('title'=>'Overview', 'view'=>'//section/_display', 'data'=>array('data'=>$model, "texts"=>$texts, 'textData'=>$textData));
 	 	  	$i = 1;
 		  	if (!empty($textData)){
 		  		foreach ($textData as $text){
@@ -33,8 +33,10 @@ $sections  = Text::getAvailableSections();
 	 	  			$i++;
 		  		}
 	 	  	}
-	 	  	$tabs['section'.$model->id.'addtext'] = array('title'=>'Add a new text', 'view'=>'//text/_form', 'data'=>array('model'=>new Text, 'sections'=>$sections, 'ajax'=>true));
+	 	  	$tabs['section'.$model->id.'addtext'] = array('title'=>'Add a new text', 'view'=>'//text/_form', 'data'=>array('model'=>new Text, 'sections'=>false, 'ajax'=>true, 'forcedSection'=>$model->id));
 	?>
 	
 		  	
-			<?php $this->widget('CTabView', array('tabs'=>$tabs, 'viewData'=>$viewData));?>
+			<?php $this->widget('CTabView', array('id'=>'section' . $model->id . 'tab','tabs'=>$tabs, 'viewData'=>$viewData));?>
+			
+			
