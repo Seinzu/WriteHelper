@@ -9,28 +9,28 @@ $this->breadcrumbs=array(
 <?php 
 	$viewData = array('sections'=>$sections);
 	$tabs = array();
-	$tabs['wholedocument'] = array('title'=>'Whole Document',
-									'view'=>'_display',
+	$tabs['Whole Document'] = array('title'=>'Whole Document',
+									'ajax'=>CHtml::normalizeUrl(array('ajax/renderDocumentPreview', 'documentid'=>$model->id)),
 									'data'=>array('sections'=>$sections, 'model'=>$model));
 	$i = 1;
 	$sectionData = $sections->getData();
 	foreach ($sectionData as $section){
 		if (!is_string($section)){
-			$tabs['section' . $i] = array('title'=>$section->title,
-										'view'=>'//section/view',
-										'data'=>array('model'=>Section::model()->find('id=:section', array("section"=>$section->id)))
+			$tabs[$section->title] = array('title'=>$section->title,
+										'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionView', 'sectionid'=>$section->id)),
+										'data'=>array(),
 										);
 			$i++;
 		}
 	}
-	$tabs['newsection'] = array('title'=>'Add a section',
-								'view'=>'//section/_form',
-								'data'=>array('model'=>new Section, 'documents'=>false, 'ajax'=>true, 'forcedDocument'=>$model->id)
+	$tabs['Add Section'] = array('title'=>'Add a section',
+								'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionForm', 'documentid'=>$model->id)),
+								'data'=>array()
 								);
 ?>
 
 
-<?php $this->widget('CTabView', array('tabs'=>$tabs, 'viewData'=>$viewData));?>
+<?php $this->widget('zii.widgets.jui.CJuiTabs', array('tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
 
 <script type='text/javascript'>
 	$('.hidden').hide();

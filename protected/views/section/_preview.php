@@ -9,5 +9,7 @@ if (!empty($textData)){
 	 	  													'dataProvider'=>$texts,
 															'itemView'=> '//text/_preview',
 															'id'=>'textListWidget'.$data->id,
+	 	  													'enablePagination'=>false,
+	 	  													'summaryText'=>'',
 															));
 	 	  	}

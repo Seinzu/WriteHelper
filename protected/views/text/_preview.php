@@ -1,5 +1,7 @@
 <p>
 <?php
-echo $data->text;
+$Markdown = new CMarkdown;
+$Markdown->purifyOutput = true;
+echo $Markdown->transform($data->text);
 ?>
 </p>

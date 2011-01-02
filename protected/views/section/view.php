@@ -1,16 +1,5 @@
 <?php
-$this->breadcrumbs=array(
-	'Sections'=>array('index'),
-	$model->id,
-);
 
-$this->menu=array(
-	array('label'=>'List Section', 'url'=>array('index')),
-	array('label'=>'Create Section', 'url'=>array('create')),
-	array('label'=>'Update Section', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Section', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Section', 'url'=>array('admin')),
-);
 ?>
 
 <h1>View Section <?php echo $model->title; ?></h1>
@@ -40,5 +29,9 @@ $this->menu=array(
 			<?php 
 			$this->widget('zii.widgets.jui.CJuiTabs', array('id'=>'section' . $model->id . 'tab','tabs'=>$tabs));
 			?>
-
+<script type='text/javascript'>
+	jQuery(function($) {
+		jQuery('#section<?php echo $model->id;?>tab').tabs({'idPrefix':'section<?php echo $model->id;?>'});
+	});
+</script>
 			

@@ -6,6 +6,8 @@
 	 	  													'dataProvider'=>$texts,
 															'itemView'=> '//text/_preview',
 															'id'=>'textListWidget'.$data->id,
+	 	  													'summaryText'=>'',
+	 	  													'enablePagination'=>false,
 															));
 	 	  	}
 	 	  	?>

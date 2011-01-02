@@ -67,4 +67,20 @@ class AjaxController extends CController
 		$this->renderPartial('//section/_display', array('data'=>$section));
 	}
 	
+	public function actionRenderSectionView($sectionid){
+		$section = Section::model()->find('id=:id', array('id'=>$sectionid));
+		$this->renderPartial('//section/view', array('model'=>$section));
+	}
+	
+	public function actionRenderSectionForm($documentid){
+		$this->renderPartial('//section/_form', array('model'=>new Section, 'documents'=>false, 'ajax'=>true, 'forcedDocument'=>$documentid));
+	}
+	
+	public function actionRenderDocumentPreview($documentid){
+		$document = Document::model()->findByPk($documentid);
+		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'document=' .$documentid)));
+		$this->renderPartial('//document/_display', array('model'=>$document, 'sections'=>$sections));
+	}
+	
+	
 }

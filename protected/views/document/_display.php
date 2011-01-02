@@ -3,6 +3,8 @@
 		'dataProvider'=>$sections,
 		'itemView'=> '//section/_preview',
 		'id'=>'sectionListWidget',
+		'enablePagination'=>false,
+		'summaryText'=>'',
 	));
 ?>
 
