@@ -15,7 +15,7 @@ $this->menu=array(
 
 <h1>View Section <?php echo $model->title; ?></h1>
 <?php
-$sections  = Text::getAvailableSections();
+			$sections  = Text::getAvailableSections();
 	 	  	$texts = new CActiveDataProvider('Text', array('criteria'=>array('condition'=>'section=' . $model->id)));
 	 	  	if (method_exists($texts, "getData")){
 		  		$textData = $texts->getData();
@@ -25,18 +25,20 @@ $sections  = Text::getAvailableSections();
 	 	  	}
 		  	$tabs = array();
 		  	$viewData = array();
-		  	$tabs['section'.$model->id.'overview'] = array('title'=>'Overview', 'view'=>'//section/_display', 'data'=>array('data'=>$model, "texts"=>$texts, 'textData'=>$textData));
+		  	$tabs[$model->title . ' Overview'] = array('title'=>'Overview', 'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionDisplay', "sectionid"=>$model->id)), 'data'=>array());
 	 	  	$i = 1;
 		  	if (!empty($textData)){
 		  		foreach ($textData as $text){
-	 	  			$tabs["section" .$model->id . "text" . $i] = array('title'=>'Edit text ' . $i, 'view'=>'//text/_form', 'data'=>array('id'=>$text->id, 'sections'=>$sections,'model'=>Text::model()->find('id=:id', array('id'=>$text->id))));
+		  			$tabs["Text " . $i] = array('title'=>'Edit text ' . $i, 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id, 'textid'=>$text->id)), 'data'=>array());
 	 	  			$i++;
 		  		}
 	 	  	}
-	 	  	$tabs['section'.$model->id.'addtext'] = array('title'=>'Add a new text', 'view'=>'//text/_form', 'data'=>array('model'=>new Text, 'sections'=>false, 'ajax'=>true, 'forcedSection'=>$model->id));
+	 	  	$tabs['Add Text'] = array('title'=>'Add a new text', 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id)), 'data'=>array());
 	?>
 	
 		  	
-			<?php $this->widget('CTabView', array('id'=>'section' . $model->id . 'tab','tabs'=>$tabs, 'viewData'=>$viewData));?>
-			
+			<?php 
+			$this->widget('zii.widgets.jui.CJuiTabs', array('id'=>'section' . $model->id . 'tab','tabs'=>$tabs));
+			?>
+
 			

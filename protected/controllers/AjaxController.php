@@ -54,5 +54,17 @@ class AjaxController extends CController
 		}
 	}
 	
+	public function actionRenderTextForm($sectionid, $textid=null){
+		if ($textid !== null)
+			$textmodel = Text::model()->find('id=:id', array('id'=>$textid));
+		else
+			$textmodel = new Text;
+	 	$this->renderPartial('//text/_form', array('model'=>$textmodel, 'forcedSection'=>$sectionid, 'sections'=>false, 'ajax'=>true));  			
+	}
+	
+	public function actionRenderSectionDisplay($sectionid){
+		$section = Section::model()->find('id=:id', array('id'=>$sectionid));
+		$this->renderPartial('//section/_display', array('data'=>$section));
+	}
 	
 }
