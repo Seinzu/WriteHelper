@@ -18,6 +18,11 @@ class Document extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+
+	public function lastModified(){
+		$this->getDbConnection()->createCommand('SELECT MAX(`order`) FROM `section_texts` WHERE section=' . $section)->queryScalar();
+	}
 
 	/**
 	 * @return string the associated database table name

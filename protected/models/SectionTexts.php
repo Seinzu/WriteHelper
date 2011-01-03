@@ -19,7 +19,6 @@ class SectionTexts extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-	
 
 	public function findHighestGap($section){
 		$section = (int) $section;

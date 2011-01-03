@@ -3,7 +3,14 @@ $this->breadcrumbs=array(
 	'Document'=>array('/document'),
 	'View',
 );?>
+<script type='text/javascript'>
 
+	function textUpdate(data, status, request){
+		var data = eval(data);
+		alert(data[0]);
+	}
+	
+</script>
 <h1>View Document <?php echo $model->title; ?></h1>
 
 <?php 
@@ -32,36 +39,3 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('zii.widgets.jui.CJuiTabs', array('tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
 
-<script type='text/javascript'>
-	$('.hidden').hide();
-
-	function sectionStatus(data, status, request){
-		$('#sectionForm').hide();
-		if (data != false){
-			var options = new Array();
-			options["afterAjaxUpdate"] = 'hideAll';
-			$.fn.yiiListView.update('sectionListWidget', options);
-			
-			$('.hidden').hide();
-		}
-	}
-
-	function hideAll(){
-		$('.hidden').hide();
-	}
-		
-	function textStatus(data, status, request){
-		var data = eval(data);
-		if (data[1] == true){
-			var options = new Array();
-			$('#textForm' + data[0]).hide();
-			$.fn.yiiListView.update('textListWidget' + data[0], options);
-		}
-	}
-
-	function getCurrentTab(tabid){
-		var currentTab = $("div#"+tabid+" > ul.tabs > li > a.active");
-		var href = currentTab.attr('href');
-	}
-	
-</script>

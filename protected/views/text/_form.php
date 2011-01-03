@@ -48,7 +48,7 @@ if (isset($ajax) && $ajax === true) {
 	// we will have to write our own javascript here to handle button presses in the ajax forms
 			?>
 			<script type="text/javascript">
-			jQuery('body').delegate('#submittext<?php echo $model->id; ?>','click',function(){jQuery.ajax({'type':'POST','url':'<?php echo CHtml::normalizeUrl(array('ajax/saveText'));?>','cache':false,'data':jQuery(this).parents("form").serialize()});return false;});
+			jQuery('body').delegate('#submittext<?php echo $model->id; ?>','click',function(){jQuery.ajax({'type':'POST','url':'<?php echo CHtml::normalizeUrl(array('ajax/saveText'));?>','success':'javascript: function(data, status, request){alert(data);}','cache':false,'dataType':'json','data':jQuery(this).parents("form").serialize()});return false;});
 			</script>
 			<?php 
 }

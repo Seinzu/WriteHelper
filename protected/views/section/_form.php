@@ -36,11 +36,18 @@
 		  	
 	?>
 	<div class="row buttons">
-		<?php 	$options = array();
+		<?php 	
+				
+				$ajaxoptions = array();
+				$htmloptions = array();
+				$htmloptions['id'] = 'submitsection' . $model->id;
 				if (isset($return)){
-					$options['success'] = $return;
+					$ajaxoptions['success'] = $return;
 				}
-				echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/createSection')), $options);?>
+				echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/createSection')), $ajaxoptions, $htmloptions);?>
+			<script type="text/javascript">
+			jQuery('body').delegate('#submitsection<?php echo $model->id; ?>','click',function(){jQuery.ajax({'type':'POST','url':'<?php echo CHtml::normalizeUrl(array('ajax/createSection'));?>','success':'javascript: function(data, status, request){alert(data);}','cache':false,'dataType':'json','data':jQuery(this).parents("form").serialize()});return false;});
+			</script>
 	</div>
 	
 	<?php } ?>
