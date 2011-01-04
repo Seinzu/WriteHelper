@@ -14,7 +14,7 @@
 	 	  	}
 		  	$tabs = array();
 		  	$viewData = array();
-		  	$tabs[$model->title . ' Overview'] = array('title'=>'Overview', 'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionDisplay', "sectionid"=>$model->id)), 'data'=>array());
+		  	$tabs[$model->title . ' Overview'] = array('title'=>'Overview', 'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionPreview', "sectionid"=>$model->id)), 'data'=>array());
 	 	  	$i = 1;
 		  	if (!empty($textData)){
 		  		foreach ($textData as $text){

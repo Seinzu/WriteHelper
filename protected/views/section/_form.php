@@ -46,7 +46,7 @@
 				}
 				echo CHtml::ajaxSubmitButton($model->isNewRecord? 'Create' : 'Save', CHtml::normalizeUrl(array('ajax/createSection')), $ajaxoptions, $htmloptions);?>
 			<script type="text/javascript">
-			jQuery('body').delegate('#submitsection<?php echo $model->id; ?>','click',function(){jQuery.ajax({'type':'POST','url':'<?php echo CHtml::normalizeUrl(array('ajax/createSection'));?>','success':'javascript: function(data, status, request){alert(data);}','cache':false,'dataType':'json','data':jQuery(this).parents("form").serialize()});return false;});
+			jQuery('body').delegate('#submitsection<?php echo $model->id; ?>','click',function(){jQuery.ajax({'type':'POST','url':'<?php echo CHtml::normalizeUrl(array('ajax/createSection'));?>','success':function(data){textUpdate(data);},'cache':false,'dataType':'json','data':jQuery(this).parents("form").serialize()});return false;});
 			</script>
 	</div>
 	

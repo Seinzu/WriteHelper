@@ -37,7 +37,7 @@ class DocumentController extends Controller
 			$this->render('view', array('model'=>$document, 'sections'=>$sections));
 		}
 		else {
-			$this->render('//site/error', array('message'=>'Permission denied'));
+			$this->render('//site/error', array('message'=>'Permission denied', 'code'=>403));
 		}
 	}
 	

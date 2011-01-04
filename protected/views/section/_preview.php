@@ -5,11 +5,14 @@
 $texts = new CActiveDataProvider('Text', array('criteria'=>array('condition'=>'section=' . $data->id)));;
 $textData = $texts->getData();
 if (!empty($textData)){
-	 	  		$this->widget('zii.widgets.CListView', array(
-	 	  													'dataProvider'=>$texts,
-															'itemView'=> '//text/_preview',
-															'id'=>'textListWidget'.$data->id,
-	 	  													'enablePagination'=>false,
-	 	  													'summaryText'=>'',
-															));
-	 	  	}
+	$output = '';
+	foreach ($textData as $text){
+		$output .= $this->renderPartial('//text/_preview', array('data'=>$text), true) . '<br /><br />';
+	}
+	$Markdown = new CMarkdown;
+	
+	echo $Markdown->transform($output);
+}
+
+
+//
