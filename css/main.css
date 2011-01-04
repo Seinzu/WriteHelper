@@ -249,3 +249,8 @@ div.search-form
 	float: left;
 	clear: left;
 }
+
+h2 span.statistic {
+	font-size: 0.5em;
+    font-weight: normal;	
+}
