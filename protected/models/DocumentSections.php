@@ -43,7 +43,7 @@ class DocumentSections extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('document, section, order', 'required'),
-			array('document, section, order', 'numerical', 'integerOnly'=>true),
+			array('document, order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('document, section, order', 'safe', 'on'=>'search'),

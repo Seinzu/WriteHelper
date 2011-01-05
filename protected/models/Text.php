@@ -51,8 +51,7 @@ class Text extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-					'section'=>array(self::BELONGS_TO, 'Section', 'section'),
-					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'text')
+					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'child')
 		);
 	}
 
@@ -64,11 +63,11 @@ class Text extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'text' => 'Text',
-			'section' => 'Section',
 		);
 	}
 	
 	public function beforeSave(){
+		$this->id = new CDbExpression('UUID()');
 		$this->modified = new CDbExpression('NOW()');
 		return parent::beforeSave();
 	}
@@ -84,7 +83,7 @@ class Text extends CActiveRecord
 		$revision->attributes = array("textid"=>$this->id, 'contents'=>$this->text);
 		$revision->save();
 		// Put this record into the current section
-		$textRecordCount = SectionTexts::model()->count('text = :text', array("text"=>$this->id));
+		$textRecordCount = SectionTexts::model()->count('child = :text', array("text"=>$this->id));
 		if ($textRecordCount == 0 && $this->section > 0){
 				
 			$st = new SectionTexts;
@@ -92,7 +91,7 @@ class Text extends CActiveRecord
 			if ($nextorder === null)
 				$nextorder = 1;
 			
-			$st->attributes = array('id'=>null, 'section'=>(int)$this->section, 'text'=>(int)$this->id, 'order'=>(int)$nextorder);
+			$st->attributes = array('id'=>null, 'parent'=>(int)$this->section, 'child'=>(int)$this->id, 'order'=>(int)$nextorder);
 			return $st->save();
 		}
 		return true;

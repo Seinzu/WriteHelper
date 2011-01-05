@@ -51,9 +51,9 @@ class Section extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array('document'=>array(self::BELONGS_TO, 'Document', 'document'),
-					 'text'=>array(self::HAS_MANY, 'Text', 'section'),
 					'documentsections'=>array(self::HAS_MANY, 'DocumentSections', 'section'),
-					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'section')
+					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'parent'),
+					'sectionparents'=>array(self::HAS_MANY, 'SectionTexts', 'child'),
 		);
 	}
 
@@ -68,6 +68,11 @@ class Section extends CActiveRecord
 		);
 	}
 
+	public function beforeSave(){
+		$this->id = new CDbExpression('UUID()');
+		return parent::beforeSave();
+	}
+	
 	/** 
 	 * Extends afterSave hook, currently used to insert the current section into the next slot on
 	 * the document sections order list.

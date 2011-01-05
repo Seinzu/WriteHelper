@@ -22,7 +22,7 @@ class SectionTexts extends CActiveRecord
 
 	public function findHighestGap($section){
 		$section = (int) $section;
-		$order = $this->getDbConnection()->createCommand('SELECT MAX(`order`) FROM `section_texts` WHERE section=' . $section)->queryScalar();
+		$order = $this->getDbConnection()->createCommand('SELECT MAX(`order`) FROM `section_texts` WHERE parent=' . $section)->queryScalar();
 		return $order+1;
 	}
 	
@@ -42,11 +42,11 @@ class SectionTexts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('section, text, order', 'required'),
-			array('section, text, order', 'numerical', 'integerOnly'=>true),
+			array('parent, child, order', 'required'),
+			array(' order', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, section, text, order', 'safe', 'on'=>'search'),
+			array('id, parent, child, order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +58,9 @@ class SectionTexts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-					'text'=>array(self::BELONGS_TO, 'Text', 'text'),
-					'section'=>array(self::BELONGS_TO, 'Section', 'section'),
+					'childText'=>array(self::HAS_MANY, 'Text', 'child'),
+					'childSection'=>array(self::HAS_MANY, 'Section', 'child'),
+					'parent'=>array(self::BELONGS_TO, 'Section', 'parent'),
 		);
 	}
 
@@ -70,8 +71,8 @@ class SectionTexts extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'section' => 'Section',
-			'text' => 'Text',
+			'parent' => 'Section',
+			'child' => 'Child',
 			'order' => 'Order',
 		);
 	}
@@ -88,8 +89,8 @@ class SectionTexts extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('section',$this->section);
-		$criteria->compare('text',$this->text);
+		$criteria->compare('parent',$this->parent);
+		$criteria->compare('child',$this->child);
 		$criteria->compare('order',$this->order);
 
 		return new CActiveDataProvider(get_class($this), array(

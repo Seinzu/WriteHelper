@@ -5,7 +5,7 @@
 <h1>View Section <?php echo $model->title; ?></h1>
 <?php
 			$sections  = Text::getAvailableSections();
-	 	  	$texts = new CActiveDataProvider('Text', array('criteria'=>array('condition'=>'section=' . $model->id)));
+	 	  	$texts = new CActiveDataProvider('Text', array('criteria'=>array('alias'=>'text','condition'=>'parent=' . $model->id, 'with'=>'sectiontexts')));
 	 	  	if (method_exists($texts, "getData")){
 		  		$textData = $texts->getData();
 	 	  	}
