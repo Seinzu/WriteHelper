@@ -39,7 +39,7 @@ class AjaxController extends CController
 	
 	public function actionSaveText(){
 		if (isset($_POST['textid']))
-			$model = Text::model()->findByPk((int)$_POST['textid']);
+			$model = Text::model()->findByPk($_POST['textid']);
 		else 
 			$model = new Text;
 		$section = isset($_POST['section']) ? $_POST['section'] : null;	
