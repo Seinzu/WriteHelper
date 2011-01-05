@@ -52,7 +52,7 @@ class Section extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array('document'=>array(self::BELONGS_TO, 'Document', 'document'),
 					'documentsections'=>array(self::HAS_MANY, 'DocumentSections', 'section'),
-					'sectiontexts'=>array(self::HAS_MANY, 'SectionTexts', 'parent'),
+					'sectiontext'=>array(self::HAS_MANY, 'SectionTexts', 'parent'),
 					'sectionparents'=>array(self::HAS_MANY, 'SectionTexts', 'child'),
 		);
 	}
@@ -69,7 +69,8 @@ class Section extends CActiveRecord
 	}
 
 	public function beforeSave(){
-		$this->id = new CDbExpression('UUID()');
+		if (empty($this->id))
+			$this->id = new CDbExpression('UUID()');
 		return parent::beforeSave();
 	}
 	
@@ -88,7 +89,7 @@ class Section extends CActiveRecord
 				$nextorder = 1;
 			else 
 				$nextorder++;
-			$ds->attributes = array('id'=>null, 'document'=>(int)$this->document, 'section'=>(int)$this->id, 'order'=>(int)$nextorder);
+			$ds->attributes = array('id'=>null, 'document'=>(int)$this->document, 'section'=>$this->id, 'order'=>(int)$nextorder);
 			return $ds->save();
 		}
 		

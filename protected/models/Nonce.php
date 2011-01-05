@@ -1,37 +1,29 @@
 <?php
 
 /**
- * This is the model class for table "section_texts".
+ * This is the model class for table "nonce".
  *
- * The followings are the available columns in table 'section_texts':
- * @property integer $id
- * @property integer $section
- * @property integer $text
- * @property integer $order
+ * The followings are the available columns in table 'nonce':
+ * @property string $nonce
+ * @property integer $active
  */
-class SectionTexts extends CActiveRecord
+class Nonce extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return SectionTexts the static model class
+	 * @return Nonce the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	public function findHighestGap($section){
-		$section = (int) $section;
-		$order = $this->getDbConnection()->createCommand('SELECT MAX(`order`) FROM `section_texts` WHERE parent=' . $section)->queryScalar();
-		return $order+1;
-	}
-	
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'section_texts';
+		return 'nonce';
 	}
 
 	/**
@@ -42,11 +34,11 @@ class SectionTexts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('parent, child, order', 'required'),
-			array(' order', 'numerical', 'integerOnly'=>true),
+			array('active', 'numerical', 'integerOnly'=>true),
+			array('nonce', 'length', 'max'=>36),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, parent, child, order', 'safe', 'on'=>'search'),
+			array('nonce, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,9 +50,6 @@ class SectionTexts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-					'childText'=>array(self::BELONGS_TO, 'Text', 'child'),
-					'childSection'=>array(self::BELONGS_TO, 'Section', 'child'),
-					'parent'=>array(self::BELONGS_TO, 'Section', 'parent'),
 		);
 	}
 
@@ -70,10 +59,8 @@ class SectionTexts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'parent' => 'Section',
-			'child' => 'Child',
-			'order' => 'Order',
+			'nonce' => 'Nonce',
+			'active' => 'Active',
 		);
 	}
 
@@ -88,10 +75,8 @@ class SectionTexts extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('parent',$this->parent);
-		$criteria->compare('child',$this->child);
-		$criteria->compare('order',$this->order);
+		$criteria->compare('nonce',$this->nonce,true);
+		$criteria->compare('active',$this->active);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,

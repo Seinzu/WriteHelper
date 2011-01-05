@@ -1,8 +1,6 @@
-
-
 <?php
 
-$texts = new CActiveDataProvider('Text', array('criteria'=>array('condition'=>'section=' . $data->id)));;
+$texts = new CActiveDataProvider('SectionTexts', array('criteria'=>array( 'condition'=>"parent='{$data->id}'", 'with'=>array('childText'), 'order'=>"`order` ASC" )));
 $textData = $texts->getData();
 if (!empty($textData)){
 	$output = '';

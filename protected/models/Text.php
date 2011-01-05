@@ -35,11 +35,11 @@ class Text extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('text, section', 'required'),
-			array('section', 'numerical', 'integerOnly'=>true),
+			array('text', 'required'),
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, text, section', 'safe', 'on'=>'search'),
+			array('id, text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,8 +67,29 @@ class Text extends CActiveRecord
 	}
 	
 	public function beforeSave(){
-		$this->id = new CDbExpression('UUID()');
+		
+		if (isset($_POST['nonce'])){
+			$nonce = Nonce::model()->find('nonce=:nonce', array('nonce'=>$_POST['nonce']));
+			if (isset($nonce->active) && $nonce->active)
+				$nonce->delete();
+			else 
+				return false;
+		}
+		else {
+			return false;
+		}
+		
+		if (empty($this->id)){
+			$cmd = Yii::app()->db->createCommand("SELECT UUID( ) AS idval");
+			$results = $cmd->query();
+			$result = $results->read();
+			$this->id = $result['idval'];
+		}
+		
+		
+		
 		$this->modified = new CDbExpression('NOW()');
+		
 		return parent::beforeSave();
 	}
 	
@@ -82,16 +103,17 @@ class Text extends CActiveRecord
 		$revision = new Revisions;
 		$revision->attributes = array("textid"=>$this->id, 'contents'=>$this->text);
 		$revision->save();
+		$section = $_POST['section'];
 		// Put this record into the current section
-		$textRecordCount = SectionTexts::model()->count('child = :text', array("text"=>$this->id));
-		if ($textRecordCount == 0 && $this->section > 0){
+		$textRecordCount = SectionTexts::model()->count("child = :text", array("text"=>$this->id));
+		if ($textRecordCount == 0 && $section > 0){
 				
 			$st = new SectionTexts;
-			$nextorder = $st->findHighestGap($this->section);
+			$nextorder = $st->findHighestGap($section);
 			if ($nextorder === null)
 				$nextorder = 1;
 			
-			$st->attributes = array('id'=>null, 'parent'=>(int)$this->section, 'child'=>(int)$this->id, 'order'=>(int)$nextorder);
+			$st->attributes = array('id'=>null, 'parent'=>$section, 'child'=>$this->id, 'order'=>(int)$nextorder);
 			return $st->save();
 		}
 		return true;
@@ -121,7 +143,6 @@ class Text extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('text',$this->text,true);
-		$criteria->compare('section',$this->section);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,

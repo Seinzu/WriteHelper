@@ -5,7 +5,7 @@
 <h1>View Section <?php echo $model->title; ?></h1>
 <?php
 			$sections  = Text::getAvailableSections();
-	 	  	$texts = new CActiveDataProvider('Text', array('criteria'=>array('alias'=>'text','condition'=>'parent=' . $model->id, 'with'=>'sectiontexts')));
+	 	  	$texts = new CActiveDataProvider('SectionTexts', array('criteria'=>array( 'condition'=>"parent='{$model->id}'", 'with'=>array('childText'), 'order'=>"`order` ASC" )));
 	 	  	if (method_exists($texts, "getData")){
 		  		$textData = $texts->getData();
 	 	  	}
@@ -18,7 +18,7 @@
 	 	  	$i = 1;
 		  	if (!empty($textData)){
 		  		foreach ($textData as $text){
-		  			$tabs["Text " . $i] = array('title'=>'Edit text ' . $i, 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id, 'textid'=>$text->id)), 'data'=>array());
+		  			$tabs["Text " . $i] = array('title'=>'Edit text ' . $i, 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id, 'textid'=>$text->child)), 'data'=>array());
 	 	  			$i++;
 		  		}
 	 	  	}

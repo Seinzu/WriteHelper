@@ -42,21 +42,21 @@ class AjaxController extends CController
 			$model = Text::model()->findByPk((int)$_POST['textid']);
 		else 
 			$model = new Text;
-			
+		$section = isset($_POST['section']) ? $_POST['section'] : null;	
 		if (isset($_POST['Text'])){
 			$model->attributes = $_POST['Text'];
 			if ($model->save()){
-				echo json_encode(array($_POST['Text']['section'], true));
+				echo json_encode(array($section, true));
 			}
 			else {
-				echo json_encode(array($_POST['Text']['section'], false));
+				echo json_encode(array($section, false));
 			}
 		}
 	}
 	
 	public function actionRenderTextForm($sectionid, $textid=null){
 		if ($textid !== null)
-			$textmodel = Text::model()->find('id=:id', array('id'=>$textid));
+			$textmodel = Text::model()->find("id=:id", array('id'=>$textid));
 		else
 			$textmodel = new Text;
 	 	$this->renderPartial('//text/_form', array('model'=>$textmodel, 'forcedSection'=>$sectionid, 'sections'=>false, 'return'=>'updateText','ajax'=>true));  			

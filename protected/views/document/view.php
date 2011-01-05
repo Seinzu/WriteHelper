@@ -7,7 +7,12 @@ $this->breadcrumbs=array(
 
 	function textUpdate(data, status, request){
 		var data = eval(data);
-		alert(data[0]);
+		$('#ajax-message').html = data[1];
+	}
+
+	function sectionUpdate(data, status, request){
+		var data = eval(data);
+		$('#ajax-message').html = data[1];
 	}
 	
 </script>
@@ -39,3 +44,4 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('zii.widgets.jui.CJuiTabs', array('tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
 
+<p>Status: <span id='ajax-message'>idle</span></p>

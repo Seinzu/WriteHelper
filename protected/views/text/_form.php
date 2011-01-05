@@ -1,33 +1,33 @@
-<div class="form"><?php $form=$this->beginWidget('CActiveForm', array(
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'text-form',
 	'enableAjaxValidation'=>true,
 ));
-if (!isset($sections)){
-	// cover for situations where sections wasn't set
-	$sections = false;
-}
+
 if (isset($model->id)){
 	?> <input type='hidden' id='textid' name='textid'
 	value='<?php echo $model->id;?>' /> <?php 
 }
-?>
 
+$nonce = new Nonce;
+$nonce->attributes = array('nonce'=>uniqid(), 'active'=>1); 
+$nonce->save();
+?>
+<input type='hidden' id='Text_nonce' name='nonce'
+	value='<?php echo $nonce->nonce;?>' />
 <p class="note">Fields with <span class="required">*</span> are
 required.</p>
 
-<?php echo $form->errorSummary($model);
+<?php 
+echo $form->errorSummary($model);
 
-if ($sections !==false){?>
-<div class="row"><?php echo $form->labelEx($model,'section'); ?> <?php echo $form->dropDownList($model,'section', $sections); ?>
-<?php echo $form->error($model,'section'); ?></div>
-
-
-<?php
-}
-else if (!empty($forcedSection)){
-	?> <input type='hidden' id='Text_section' name='Text[section]'
+if (!empty($forcedSection)){
+	?> <input type='hidden' id='Text_section' name='section'
 	value='<?php echo $forcedSection;?>' /> <?php 
 }
+
+
+
 $this->widget(
     			'application.extensions.ddeditor.DDEditor',
 array(

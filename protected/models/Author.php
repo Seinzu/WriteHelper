@@ -93,13 +93,19 @@ class Author extends CActiveRecord
 		));
 	}
 	
+	public function beforeSave(){
+		$this->salt = md5($this->username . $this->password);
+		$this->password = sha1($this->salt . $this->password);
+		return parent::beforeSave();
+	}
+	
 	public function validatePassword($password){
 		return $this->hashPassword($password) === $this->password;
 	}
 	
 	protected function hashPassword($password){
 		// @todo add a salt
-		$hash = md5($password);
+		$hash = sha1($this->salt . $password);
 		return $hash;
 	}
 	
