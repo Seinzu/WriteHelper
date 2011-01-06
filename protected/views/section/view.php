@@ -27,7 +27,7 @@
 	
 		  	
 			<?php 
-			$this->widget('zii.widgets.jui.CJuiTabs', array('id'=>'SectionTab_' . $model->id,'tabs'=>$tabs));
+			$this->widget('CustomJuiTabs', array('id'=>'SectionTab_' . $model->id,'tabs'=>$tabs));
 			?>
 <script type='text/javascript'>		   														
 	jQuery(function($) {

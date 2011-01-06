@@ -30,7 +30,7 @@ $this->breadcrumbs=array(
 ?>
 
 
-<?php $this->widget('zii.widgets.jui.CJuiTabs', array('id'=>'DocumentTab','tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
+<?php $this->widget('CustomJuiTabs', array('id'=>'DocumentTab','tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
 
 <p>Status: <span id='ajax-message'>idle</span></p>
 
