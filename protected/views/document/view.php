@@ -3,19 +3,7 @@ $this->breadcrumbs=array(
 	'Document'=>array('/document'),
 	'View',
 );?>
-<script type='text/javascript'>
 
-	function textUpdate(data, status, request){
-		var data = eval(data);
-		$('#ajax-message').html = data[1];
-	}
-
-	function sectionUpdate(data, status, request){
-		var data = eval(data);
-		$('#ajax-message').html = data[1];
-	}
-	
-</script>
 <h1>View Document <?php echo $model->title; ?></h1>
 
 <?php 
@@ -45,3 +33,21 @@ $this->breadcrumbs=array(
 <?php $this->widget('zii.widgets.jui.CJuiTabs', array('tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
 
 <p>Status: <span id='ajax-message'>idle</span></p>
+
+<script type='text/javascript'>
+
+	function textUpdate(data, status, request){
+		if (data[1]){
+			var message = 'text saved'; 
+		}
+		else {
+			var message = 'couldn\'t save';
+		}
+		jQuery('#ajax-message').text(message);
+	}
+
+	function sectionUpdate(data, status, request){
+		jQuery('#ajax-message').text(data[1]);
+	}
+	
+</script>
