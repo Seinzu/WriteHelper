@@ -254,3 +254,7 @@ h2 span.statistic {
 	font-size: 0.5em;
     font-weight: normal;	
 }
+
+.ui-widget-content {
+	border: none !important;	
+}

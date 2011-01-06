@@ -15,7 +15,6 @@ $this->widget('zii.widgets.jui.CJuiSortable', array(
 		   'update'=>'js:function (event, ui){
 		   					var sortArray = $(this).sortable("toArray");
 		   					var section = '. $model->id .';
-		   					console.debug(sortArray);
 		   					$.ajax({
 		   							type: "POST",
 		   							url: "'. Yii::app()->createUrl("ajax/reorderSectionItem") .'",

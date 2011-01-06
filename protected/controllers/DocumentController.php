@@ -33,7 +33,7 @@ class DocumentController extends Controller
 		$document = $this->loadModel($id);
 		// it's hacky permissions time @todo proper permissions functionality
 		if ($document->author == Yii::app()->user->getId()){
-			$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'document=' . $id)));
+			$sections = new CActiveDataProvider('DocumentSections', array('criteria'=>array('with'=>array('documentSection'), 'condition'=>'document=' . $id, 'order'=>"`order` ASC")));
 			$this->render('view', array('model'=>$document, 'sections'=>$sections));
 		}
 		else {

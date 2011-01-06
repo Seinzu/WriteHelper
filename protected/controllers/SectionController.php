@@ -59,7 +59,7 @@ class SectionController extends Controller
 	}
 
 	public function actionOrder($id){
-		$sectiontexts = SectionTexts::model()->findAll('section=:section', array('section'=>$id));
+		$sectiontexts = SectionTexts::model()->findAll('parent=:section', array('section'=>$id));
 		$this->render('order', array('model'=>$this->loadModel($id), 'sectiontexts'=>$sectiontexts));
 	}
 	

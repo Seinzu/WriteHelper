@@ -1,11 +1,10 @@
 <?php
-	$this->widget('zii.widgets.CListView', array(
-		'dataProvider'=>$sections,
-		'itemView'=> '//section/_preview',
-		'id'=>'sectionListWidget',
-		'enablePagination'=>false,
-		'summaryText'=>'',
-	));
+	$sectionsData = $sections->getData();
+	foreach ($sectionsData as $section){
+		if (isset($section->documentSection))
+			$this->renderPartial('//section/_preview', array('data'=>$section->documentSection));
+	}	
+
 ?>
 
 <div id='req'></div>

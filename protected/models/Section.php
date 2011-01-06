@@ -35,11 +35,10 @@ class Section extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title', 'required'),
-			array('document', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, document', 'safe', 'on'=>'search'),
+			array('id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +49,8 @@ class Section extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array('document'=>array(self::BELONGS_TO, 'Document', 'document'),
-					'documentsections'=>array(self::HAS_MANY, 'DocumentSections', 'section'),
+		return array(
+					'documentSection'=>array(self::HAS_MANY, 'DocumentSections', 'section'),
 					'sectiontext'=>array(self::HAS_MANY, 'SectionTexts', 'parent'),
 					'childSection'=>array(self::HAS_MANY, 'SectionTexts', 'child'),
 		);

@@ -11,31 +11,47 @@ $this->breadcrumbs=array(
 	$tabs = array();
 	$tabs['Whole Document'] = array('title'=>'Whole Document',
 									'ajax'=>CHtml::normalizeUrl(array('ajax/renderDocumentPreview', 'documentid'=>$model->id)),
-									'data'=>array('sections'=>$sections, 'model'=>$model));
+									);
 	$i = 1;
 	$sectionData = $sections->getData();
 	foreach ($sectionData as $section){
-		if (!is_string($section)){
-			$tabs[$section->title] = array('title'=>$section->title,
-										'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionView', 'sectionid'=>$section->id)),
-										'data'=>array(),
+		if (isset($section->documentSection)){
+			$tabs[$section->documentSection->title] = array('id'=>$section->documentSection->id,
+										'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionView', 'sectionid'=>$section->documentSection->id)),
+										
 										);
 			$i++;
 		}
 	}
 	$tabs['Add Section'] = array('title'=>'Add a section',
 								'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionForm', 'documentid'=>$model->id)),
-								'data'=>array()
+								
 								);
 ?>
 
 
-<?php $this->widget('zii.widgets.jui.CJuiTabs', array('tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
+<?php $this->widget('zii.widgets.jui.CJuiTabs', array('id'=>'DocumentTab','tabs'=>$tabs, 'options'=>array('idPrefix'=>"parent")));?>
 
 <p>Status: <span id='ajax-message'>idle</span></p>
 
 <script type='text/javascript'>
-
+	jQuery(function() {
+		jQuery( "#DocumentTab" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x", 
+			   															  update: function(event, ui) { 
+				  																			var sortArray = $(this).sortable("toArray");
+				  																			var document = <?php echo $model->id;?>;
+				  																			$.ajax({
+				  													   							type: "POST",
+				  													   							url: "<?php echo Yii::app()->createUrl("ajax/reorderDocumentItem")?>",
+				  													   							data: {document: document, sortArray: sortArray},
+				  													   							success: function (msg){
+				  													   										jQuery('#ajax-message').text(msg);
+				  													   								}
+				  													   							});
+				  																			}
+																		});
+	});
+	
 	function textUpdate(data, status, request){
 		if (data[1]){
 			var message = 'text saved'; 

@@ -16,25 +16,64 @@ class AjaxController extends CController
 		}
 	}
 	
-	public function actionReorderSectionItem(){
-		if (isset($_POST['section']))
-			$section = $_POST['section'];
+	public function actionReorderDocumentItem(){
+		if (isset($_POST['document']))
+			$document = $_POST['document'];
 		else
-			die(json_encode(array(false, 'Needs to provide session information')));
+			die(json_encode(array(false, 'Needs to provide section information')));
 		if (isset($_POST['sortArray']))
 			$sortArray = $_POST['sortArray'];
 		else 
 			die(json_encode(array(false, 'Needs to provide sort information')));
-		// delete existing sort records - this might be refactored later to not require deletion
-		$deletion = SectionTexts::model()->deleteAll('section=:section', array('section'=>$section));
+
+		$deletion = DocumentSections::model()->deleteAll('document=:document', array('document'=>$document));
 		$success = true;
-		foreach ($sortArray as $order => $textid){
-			$st = new SectionTexts();
-			$attributes = array('id'=>null, 'section'=>$section, 'text'=>$textid, 'order'=>$order);
-			$st->attributes = $attributes;
-			$success = $success & $st->save();	
+		$i = 1;	
+		foreach ($sortArray as $key=>$sortItem){
+			$value = strstr($sortItem, 'DocumentTab');
+			
+			if ($value !== false){
+				unset($sortArray[$key]);
+			}
+			else {
+				$ds = new DocumentSections();
+				$attributes = array('id'=>null, 'document'=>$document, 'section'=>$sortItem, 'order'=>$i);
+				$ds->attributes = $attributes;
+				$success = $success & $ds->save();
+				$i++;
+			}
+		}	
+		echo ($success) ? "reordered" : "could not reorder";
+	}
+	
+	public function actionReorderSectionItem(){
+		if (isset($_POST['section']))
+			$section = $_POST['section'];
+		else
+			die(json_encode(array(false, 'Needs to provide section information')));
+		if (isset($_POST['sortArray']))
+			$sortArray = $_POST['sortArray'];
+		else 
+			die(json_encode(array(false, 'Needs to provide sort information')));
+		
+		// delete existing sort records - this might be refactored later to not require deletion
+		$deletion = SectionTexts::model()->deleteAll('parent=:section', array('section'=>$section));
+		$success = true;
+		$i = 1;
+		foreach ($sortArray as $key => $textid){
+			$value = strstr($textid, 'SectionTab');
+			if ($value !== false){
+				unset($sortArray[$key]);
+			}
+			else {
+				$st = new SectionTexts();
+				$attributes = array('id'=>null, 'parent'=>$section, 'child'=>$textid, 'order'=>$i);
+				$st->attributes = $attributes;
+				$success = $success & $st->save();
+				$i++;
+			}	
 		}
-		echo ($success) ? "true" : "false";
+		echo ($success) ? "reordered" : "could not reorder";
 	}
 	
 	public function actionSaveText(){
@@ -78,7 +117,7 @@ class AjaxController extends CController
 	
 	public function actionRenderDocumentPreview($documentid){
 		$document = Document::model()->findByPk($documentid);
-		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'document=' .$documentid)));
+		$sections = new CActiveDataProvider('DocumentSections', array('criteria'=>array('with'=>array('documentSection'), 'condition'=>'document=' . $documentid, 'order'=>"`order` ASC")));
 		$this->renderPartial('//document/_display', array('model'=>$document, 'sections'=>$sections));
 	}
 	
