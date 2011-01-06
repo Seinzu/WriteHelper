@@ -5,21 +5,26 @@
 <h1>View Section <?php echo $model->title; ?></h1>
 <?php
 			$sections  = Text::getAvailableSections();
-	 	  	$texts = new CActiveDataProvider('SectionTexts', array('criteria'=>array( 'condition'=>"parent='{$model->id}'", 'with'=>array('childText'), 'order'=>"`order` ASC" )));
-	 	  	if (method_exists($texts, "getData")){
-		  		$textData = $texts->getData();
+	 	  	$childs = new CActiveDataProvider('SectionTexts', array('criteria'=>array( 'condition'=>"parent='{$model->id}'", 'with'=>array('childText', 'childSection'), 'order'=>"`order` ASC" )));
+	 	  	if (method_exists($childs, "getData")){
+		  		$childsData = $childs->getData();
 	 	  	}
 	 	  	else {
-	 	  		$textData = false;
+	 	  		$childsData = false;
 	 	  	}
 		  	$tabs = array();
 		  	$viewData = array();
 		  	$tabs[$model->title . ' Overview'] = array('title'=>'Overview', 'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionPreview', "sectionid"=>$model->id)), 'data'=>array());
 	 	  	$i = 1;
-		  	if (!empty($textData)){
-		  		foreach ($textData as $text){
-		  			$tabs["Text " . $i] = array('title'=>'Edit text ' . $i, 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id, 'textid'=>$text->child)), 'data'=>array());
-	 	  			$i++;
+		  	if (!empty($childsData)){
+		  		foreach ($childsData as $child){
+		  			if (isset($child->childText) && $child->childText->id !==null){
+		  				$tabs["Text " . $i] = array('title'=>'Edit text ' . $i, 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id, 'textid'=>$child->childText->id)), 'data'=>array());
+		  			}
+		  			else if (isset($child->childSection) && $child->childSection->id !==null){
+		  				$tabs["Section " . $i] = array('title'=>'Edit text ' . $i, 'ajax'=>CHtml::normalizeUrl(array('ajax/renderSectionView', 'sectionid'=>$child->childSection->id)), 'data'=>array());
+		  			}
+		  			$i++;
 		  		}
 	 	  	}
 	 	  	$tabs['Add Text'] = array('title'=>'Add a new text', 'ajax'=>CHtml::normalizeUrl(array('ajax/renderTextForm', 'sectionid'=>$model->id)), 'data'=>array());

@@ -53,7 +53,7 @@ class Section extends CActiveRecord
 		return array('document'=>array(self::BELONGS_TO, 'Document', 'document'),
 					'documentsections'=>array(self::HAS_MANY, 'DocumentSections', 'section'),
 					'sectiontext'=>array(self::HAS_MANY, 'SectionTexts', 'parent'),
-					'sectionparents'=>array(self::HAS_MANY, 'SectionTexts', 'child'),
+					'childSection'=>array(self::HAS_MANY, 'SectionTexts', 'child'),
 		);
 	}
 
