@@ -33,7 +33,7 @@ $this->widget(
 array(
     	    'model'=>$model,
     	    'attribute'=>'text',
-    	    'htmlOptions'=>array('rows'=>20, 'cols'=>90),
+    	    'htmlOptions'=>array('rows'=>20, 'cols'=>75),
     	    'previewRequest'=>'text/preview')); ?>
 <div class="row buttons">
 <?php 

@@ -31,6 +31,8 @@
 			?>
 <script type='text/javascript'>		   														
 	jQuery(function($) {
+		jQuery('#SectionTab_<?php echo $model->id;?>').tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+		jQuery('#SectionTab_<?php echo $model->id;?> li').removeClass('ui-corner-top').addClass('ui-corner-left');
 		jQuery('#SectionTab_<?php echo $model->id;?>').tabs().find('.ui-tabs-nav').sortable({  axis: "x", 
 																								update: function(event, ui) { 
 																												var sortArray = $(this).sortable("toArray");
