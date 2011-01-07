@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.7deb3build0.10.10.1
+-- version 3.2.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 05, 2011 at 05:56 PM
--- Server version: 5.1.49
--- PHP Version: 5.3.3-1ubuntu9.1
+-- Generation Time: Jan 07, 2011 at 12:19 AM
+-- Server version: 5.1.44
+-- PHP Version: 5.3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -16,7 +16,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `writehelper`
+-- Database: `dev_writehelper`
 --
 
 -- --------------------------------------------------------
@@ -25,7 +25,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `AuthAssignment`
 --
 
-CREATE TABLE IF NOT EXISTS `AuthAssignment` (
+CREATE TABLE `AuthAssignment` (
   `itemname` varchar(64) NOT NULL,
   `userid` varchar(64) NOT NULL,
   `bizrule` text,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `AuthAssignment` (
 -- Table structure for table `AuthItem`
 --
 
-CREATE TABLE IF NOT EXISTS `AuthItem` (
+CREATE TABLE `AuthItem` (
   `name` varchar(64) NOT NULL,
   `type` int(11) NOT NULL,
   `description` text,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `AuthItem` (
 -- Table structure for table `AuthItemChild`
 --
 
-CREATE TABLE IF NOT EXISTS `AuthItemChild` (
+CREATE TABLE `AuthItemChild` (
   `parent` varchar(64) NOT NULL,
   `child` varchar(64) NOT NULL,
   PRIMARY KEY (`parent`,`child`),
@@ -67,16 +67,18 @@ CREATE TABLE IF NOT EXISTS `AuthItemChild` (
 -- Table structure for table `author`
 --
 
-CREATE TABLE IF NOT EXISTS `author` (
+CREATE TABLE `author` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `salt` char(20) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `lastlogin` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `a_uname_idx` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -84,13 +86,13 @@ CREATE TABLE IF NOT EXISTS `author` (
 -- Table structure for table `document`
 --
 
-CREATE TABLE IF NOT EXISTS `document` (
+CREATE TABLE `document` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `author` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `d_athr_idx` (`author`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -98,14 +100,14 @@ CREATE TABLE IF NOT EXISTS `document` (
 -- Table structure for table `document_sections`
 --
 
-CREATE TABLE IF NOT EXISTS `document_sections` (
+CREATE TABLE `document_sections` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `document` int(10) NOT NULL,
   `section` char(36) NOT NULL,
   `order` int(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `doc_order_enforce` (`document`,`order`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
 
 -- --------------------------------------------------------
 
@@ -113,8 +115,8 @@ CREATE TABLE IF NOT EXISTS `document_sections` (
 -- Table structure for table `nonce`
 --
 
-CREATE TABLE IF NOT EXISTS `nonce` (
-  `nonce` char(36) NOT NULL DEFAULT 'UUID()',
+CREATE TABLE `nonce` (
+  `nonce` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `active` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`nonce`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -125,9 +127,9 @@ CREATE TABLE IF NOT EXISTS `nonce` (
 -- Table structure for table `revisions`
 --
 
-CREATE TABLE IF NOT EXISTS `revisions` (
+CREATE TABLE `revisions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `textid` int(10) NOT NULL,
+  `textid` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `contents` text NOT NULL,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -141,9 +143,8 @@ CREATE TABLE IF NOT EXISTS `revisions` (
 -- Table structure for table `section`
 --
 
-CREATE TABLE IF NOT EXISTS `section` (
+CREATE TABLE `section` (
   `id` char(36) NOT NULL DEFAULT 'UUID()',
-  `document` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -151,26 +152,10 @@ CREATE TABLE IF NOT EXISTS `section` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `section_text`
---
-
-CREATE TABLE IF NOT EXISTS `section_text` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `section` int(11) NOT NULL,
-  `text` int(11) NOT NULL,
-  `weight` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `st_section_idx` (`section`),
-  KEY `st_text_idx` (`text`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `section_texts`
 --
 
-CREATE TABLE IF NOT EXISTS `section_texts` (
+CREATE TABLE `section_texts` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `parent` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'the container section',
   `child` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The child to be placed in the container',
@@ -178,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `section_texts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `sec_order_enforcement` (`parent`,`order`),
   UNIQUE KEY `sec_txt_unique` (`parent`,`child`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Intersection to order texts within a section' AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Intersection to order texts within a section' AUTO_INCREMENT=24 ;
 
 -- --------------------------------------------------------
 
@@ -186,13 +171,13 @@ CREATE TABLE IF NOT EXISTS `section_texts` (
 -- Table structure for table `tag`
 --
 
-CREATE TABLE IF NOT EXISTS `tag` (
+CREATE TABLE `tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` varchar(100) NOT NULL COMMENT 'foreign key for tag_type',
   PRIMARY KEY (`id`),
   KEY `t_prnt_idx` (`type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -200,13 +185,13 @@ CREATE TABLE IF NOT EXISTS `tag` (
 -- Table structure for table `tag_instance`
 --
 
-CREATE TABLE IF NOT EXISTS `tag_instance` (
+CREATE TABLE `tag_instance` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `tag` int(10) NOT NULL,
   `group` int(10) NOT NULL COMMENT 'no, non-lazy groups (i.e. this is the only representation of group)',
   `item` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains instances of tags (e.g. that a given text is tagged' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains instances of tags (e.g. that a given text is tagged' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -214,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `tag_instance` (
 -- Table structure for table `tag_type`
 --
 
-CREATE TABLE IF NOT EXISTS `tag_type` (
+CREATE TABLE `tag_type` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
@@ -222,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `tag_type` (
   `callback` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_tagtype_title` (`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='tag type' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tag type' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -230,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `tag_type` (
 -- Table structure for table `text`
 --
 
-CREATE TABLE IF NOT EXISTS `text` (
+CREATE TABLE `text` (
   `id` char(36) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'UUID()',
   `text` text NOT NULL,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -244,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `text` (
 -- Table structure for table `text_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `text_tags` (
+CREATE TABLE `text_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` int(11) NOT NULL,
   `tag` int(11) NOT NULL,
