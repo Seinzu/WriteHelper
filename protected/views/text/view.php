@@ -20,10 +20,6 @@ $this->menu=array(
 	'attributes'=>array(
 		'id',
 		'text',
-		'section',
+		'modified',
 	),
 )); ?>
-
-<h2>Tags</h2>
-
-<?php //$this->widget('TagWidget', array('item'=>$model->id, 'itemType'=>'text'))?>

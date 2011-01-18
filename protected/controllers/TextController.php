@@ -25,14 +25,13 @@ class TextController extends Controller
 	 */
 	public function accessRules()
 	{
-		$name = Yii::app()->user->name;
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'users'=>array($name),
+				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'preview'),
+				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -43,17 +42,6 @@ class TextController extends Controller
 				'users'=>array('*'),
 			),
 		);
-	}
-
-	protected function _getSections(){
-		$author = Yii::app()->user->getId();
-		$sections = new CActiveDataProvider('Section', array('criteria'=>array('condition'=>'author='.$author, 'with'=>'document')));
-		$data = $sections->getData();
-		$sections = array(0=>'No Section');
-		foreach ($data as $section){
-			$sections[$section->id] = $section->title;
-		}
-		return $sections;
 	}
 
 	/**
@@ -71,13 +59,10 @@ class TextController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate($section = null)
+	public function actionCreate()
 	{
 		$model=new Text;
-		$sections = $this->_getSections();
-		if ($section !== null) {
-			$model->section = $section;
-		}
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -90,7 +75,6 @@ class TextController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
-			'sections'=>$sections,
 		));
 	}
 
@@ -102,7 +86,7 @@ class TextController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$sections = $this->_getSections();
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -115,7 +99,6 @@ class TextController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
-			'sections'=>$sections,
 		));
 	}
 
@@ -164,15 +147,7 @@ class TextController extends Controller
 			'model'=>$model,
 		));
 	}
-	
-	/**
-	 * 
-	 */
-	public function actionPreview(){
-		$parser=new CMarkdownParser;
-		echo $parser->safeTransform($_POST['Text'][$_GET['attribute']]);
-	}
-	
+
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

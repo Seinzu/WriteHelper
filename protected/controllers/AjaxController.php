@@ -77,18 +77,24 @@ class AjaxController extends CController
 	}
 	
 	public function actionSaveText(){
-		if (isset($_POST['textid']))
+		if (isset($_POST['textid'])){
 			$model = Text::model()->findByPk($_POST['textid']);
-		else 
+		}
+		else if (isset($_POST['id'])){
+			$model = Text::model()->findByPk($_POST['id']);
+			$outp = 'save';
+		}
+		else{
 			$model = new Text;
-		$section = isset($_POST['section']) ? $_POST['section'] : null;	
-		if (isset($_POST['Text'])){
-			$model->attributes = $_POST['Text'];
-			if ($model->save()){
-				echo json_encode(array($section, true));
+			$outp = 'create';
+		}
+		if (isset($_POST['value'])){
+			$model->setAttribute('Text', $_POST['value']);
+			if ($model->save(true, 'Text')){
+				echo json_encode(array(true, $outp));
 			}
 			else {
-				echo json_encode(array($section, false));
+				echo json_encode(array(false, 'could not ' . $outp));
 			}
 		}
 	}
