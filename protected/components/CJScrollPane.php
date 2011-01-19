@@ -23,10 +23,10 @@ class CJScrollPane extends CJuiWidget {
 	
 	.scroll-pane { overflow: auto; width: 99%; float:left; }
 	.scroll-content { width: {$totalWidth}px; float: left; }
-	.scroll-content-item { width: 200px; height: 100px; float: left; margin: 10px; font-size: 3em; line-height: 96px; text-align: center; }
+	.scroll-content-item { width: 200px; height: 37px; float: left; margin: 4px; font-size: 1.1em; line-height: 37px; text-align: center; }
 	* html .scroll-content-item { display: inline; } /* IE6 float double margin bug */
 	.scroll-bar-wrap { clear: left; padding: 0 4px 0 2px; margin: 0 -1px -1px -1px; }
-	.scroll-bar-wrap .ui-slider { background: none; border:0; height: 2em; margin: 0 auto;  }
+	.scroll-bar-wrap .ui-slider { background: none; border:0; height: 1em; margin: 0 auto;  }
 	.scroll-bar-wrap .ui-handle-helper-parent { position: relative; width: 100%; height: 100%; margin: 0 auto; }
 	.scroll-bar-wrap .ui-slider-handle { top:.2em; height: 1.5em; }
 	.scroll-bar-wrap .ui-slider-handle .ui-icon { margin: -8px auto 0; position: relative; top: 50%; }

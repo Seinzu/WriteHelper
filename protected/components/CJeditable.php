@@ -22,7 +22,7 @@ class CJEditable extends CWidget {
 		
 		echo "<div id={$id}>{$this->text}</div>";
 		
-		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		$options=empty($this->options) ? '{}' : CJavaScript::encode($this->options);
 		
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').editable('{$this->url}', {$options});");
 	}

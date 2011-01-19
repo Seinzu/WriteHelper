@@ -13,7 +13,7 @@
 		  	if (!empty($childsData)){
 		  		foreach ($childsData as $child){
 		  			if (isset($child->childText) && $child->childText->id !==null){
-		  				$panels["Text " . $i] = $this->renderPartial('//text/_preview', array('data'=>Text::model()->findByPk($child->childText->id), 'section'=>$model->id), true);
+		  				$panels["Text " . $i] = $this->renderPartial('//text/_inline', array('data'=>Text::model()->findByPk($child->childText->id), 'section'=>$model->id), true);
 		  			}
 		  			else if (isset($child->childSection) && $child->childSection->id !==null){
 		  				$panels[$child->childSection->title] = $this->renderPartial('//section/_preview', array('data'=>Section::model()->findByPk($child->childSection->id)), true);
@@ -21,7 +21,7 @@
 		  			$i++;
 		  		}
 	 	  	}
-	 	  	$options = array('animated'=>'bounceslide','collapsible'=>true);
+	 	  	$options = array('autoHeight'=>false,'collapsible'=>true);
 	 	  	$panels['Add Text'] = $this->renderPartial('//text/_form', array('model'=>new Text), true);
 			$this->widget('zii.widgets.jui.CJuiAccordion', array('id'=>$model->id . '-panels',
 															    'panels'=>$panels, 

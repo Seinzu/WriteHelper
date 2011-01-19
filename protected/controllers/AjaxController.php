@@ -76,22 +76,40 @@ class AjaxController extends CController
 		echo ($success) ? "reordered" : "could not reorder";
 	}
 	
+	public function actionViewMarkdownText($textid){
+		$model = Text::model()->findByPk($textid);
+		if (empty($model)){
+			return false;
+		}
+		else {
+			echo $model->text;
+		}
+	}
+	
 	public function actionSaveText(){
 		if (isset($_POST['textid'])){
-			$model = Text::model()->findByPk($_POST['textid']);
+			$id = $_POST['textid'];
 		}
 		else if (isset($_POST['id'])){
-			$model = Text::model()->findByPk($_POST['id']);
+			$id = $_POST['id'];
 			$outp = 'save';
 		}
 		else{
 			$model = new Text;
 			$outp = 'create';
 		}
+		$model = Text::model()->findByPk($id);
+		if (empty($model)){
+			return "could not save";
+		}
+		
 		if (isset($_POST['value'])){
-			$model->setAttribute('Text', $_POST['value']);
-			if ($model->save(true, 'Text')){
-				echo json_encode(array(true, $outp));
+			$model->setAttribute('text', $_POST['value']);
+			if ($model->save(true)){
+				if ($_POST['returnText'])
+					echo $model->text;
+				else
+					echo json_encode(array(true, $outp));
 			}
 			else {
 				echo json_encode(array(false, 'could not ' . $outp));
