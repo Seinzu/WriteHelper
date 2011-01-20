@@ -1,7 +1,9 @@
 <?php 
 $nonce = new Nonce;
 $nonce->attributes = array('nonce'=>uniqid(), 'active'=>1); 
-$nonce->save();
+if (!$nonce->save()){
+	echo "nonce could not be generated";
+}
 $columns = 80;
 $rows = (strlen($data->text) / 80) +2;
 $options = array('rows'=>$rows, 'columns'=>$columns, 'loadurl'=> CHtml::normalizeUrl(array('ajax/viewMarkdownText', 'textid'=>$data->id)), 'submitdata'=>array('nonce'=>$nonce->nonce, 'section'=>$section, 'returnText'=>1), "submit"=>"ok", "indicator"=>'Saving...', "tooltip"=>'Click to edit...', 'type'=>'textarea'); 

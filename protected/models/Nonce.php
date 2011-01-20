@@ -26,6 +26,11 @@ class Nonce extends CActiveRecord
 		return 'nonce';
 	}
 
+	public function beforeSave(){
+		$this->modified = new CDbExpression('NOW()');
+		return parent::beforeSave();
+	}
+	
 	/**
 	 * @return array validation rules for model attributes.
 	 */

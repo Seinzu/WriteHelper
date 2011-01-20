@@ -73,7 +73,7 @@ class Text extends CActiveRecord
 			if (isset($nonce->active) && $nonce->active)
 				$nonce->delete();
 			else 
-				return false;
+				throw new Exception('nonce problem');
 		}
 		else {
 			return false;

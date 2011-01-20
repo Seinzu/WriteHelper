@@ -106,8 +106,10 @@ class AjaxController extends CController
 		if (isset($_POST['value'])){
 			$model->setAttribute('text', $_POST['value']);
 			if ($model->save(true)){
-				if ($_POST['returnText'])
-					echo $model->text;
+				if ($_POST['returnText']){
+					$markdown = new CMarkdown;
+					echo $markdown->transform($model->text);
+				}
 				else
 					echo json_encode(array(true, $outp));
 			}

@@ -1,4 +1,3 @@
 <?php
-$markdown = new CMarkdown;
-echo $markdown->transform($data->text);
+echo $data->text;
 ?>
