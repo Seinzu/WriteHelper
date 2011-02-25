@@ -11,7 +11,7 @@ $(document).ready ->
   app.controllers.text = new TextController()
   app.controllers.project = new ProjectController()
   app.views.home = new HomeView()
-  app.collections.projects = new ProjectCollection()
+  app.collections.projects = new ProjectCollection(new ProjectModel({name: "test"}))
 
   Backbone.history.saveLocation("home") if '' == Backbone.history.getFragment()
   Backbone.history.start()

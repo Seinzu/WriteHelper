@@ -1,10 +1,10 @@
 class ProjectModel extends Backbone.Model 
 
-  EMPTY: "no projects"
+  EMPTY: ""
 
   initialize: ->
-    if (!this.get("content"))
-      this.set({"content": this.EMPTY})
+    if (!this.get("name"))
+      this.set({"name": this.EMPTY})
 
   clear: ->
     this.destroy()

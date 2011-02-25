@@ -7,9 +7,7 @@ class ProjectController extends Backbone.Controller
     super
 
   index: ->
-    projects = app.collections.projects.fetch()
-    console.log(projects)
-    projectView = new ProjectListView({container: projects})
+    projectView = new ProjectListView()
     projectView.render()
 
   view = (pid) ->
