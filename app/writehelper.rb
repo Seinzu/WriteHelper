@@ -1,16 +1,18 @@
 require "sinatra"
 require "json"
 
-@@projects = []
+set :public, File.dirname(__FILE__) + '/brunch/build'
+
+@@projects = [:contents => 'test']
 @@texts = []
 
 get '/' do
-  'hello world'
+  File.read(File.join(File.dirname(__FILE__), 'brunch', 'build', 'index.html'))
 end
 
 get '/projects' do
   content_type :json
-  {:models => @@projects }.to_json
+  {:models=> @@projects}.to_json
 end
 
 post '/projects' do
@@ -25,7 +27,7 @@ get '/texts' do
   {:models => @@texts}.to_json
 end
 
-post '/projects' do
+post '/texts' do
   content_type :json
   text = JSON.parse(params[:model])
   @@texts << text

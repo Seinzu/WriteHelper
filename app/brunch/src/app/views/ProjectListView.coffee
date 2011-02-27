@@ -1,12 +1,12 @@
 class ProjectListView extends Backbone.View
   id: 'project-list-view'
-  events: {"submit #new-project-form": "testPopup"}
+  
+  events: 	
+    "click #project-submit": "testPopup" 
 
   initialize: ->
-    _.bindAll(this, "render")
+    @.delegateEvents(@.events)
   
-  testPopup: ->
-    console.log("tes")
 
   createProject = (data) ->
     console.log("here")
@@ -16,7 +16,6 @@ class ProjectListView extends Backbone.View
 
   render: ->
     projects = app.collections.projects.fetch()
-    console.log(projects)
     $(@.el) .html(app.templates.header())
             .appendTo($("body"))
     $("<p>").html('this is the list view')
