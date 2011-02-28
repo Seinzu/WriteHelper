@@ -31,7 +31,7 @@
       ProjectCollection.__super__.constructor.apply(this, arguments);
     }
     __extends(ProjectCollection, Backbone.Collection);
-    ProjectCollection.prototype.model = ProjectModel;
+    ProjectCollection.model = ProjectModel;
     ProjectCollection.prototype.url = 'http://localhost:4567/projects';
     return ProjectCollection;
   })();
@@ -167,7 +167,7 @@
     __extends(ProjectListView, Backbone.View);
     ProjectListView.prototype.id = 'project-list-view';
     ProjectListView.prototype.events = {
-      "click #project-submit": "testPopup"
+      "click #project-submit": "createProject"
     };
     ProjectListView.prototype.initialize = function() {
       return this.delegateEvents(this.events);
@@ -179,7 +179,8 @@
       app.collections.projects.create({
         name: nameField.val()
       });
-      return nameField.val('');
+      nameField.val('');
+      return false;
     };
     ProjectListView.prototype.render = function() {
       var data, output, projects;

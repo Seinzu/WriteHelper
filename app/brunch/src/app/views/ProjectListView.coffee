@@ -1,18 +1,19 @@
 class ProjectListView extends Backbone.View
   id: 'project-list-view'
-  
-  events: 	
-    "click #project-submit": "testPopup" 
+
+  events: {
+    "click #project-submit": "createProject"
+  }
 
   initialize: ->
     @.delegateEvents(@.events)
-  
 
   createProject = (data) ->
     console.log("here")
     nameField = $('input[name=projectName]')
     app.collections.projects.create({name: nameField.val()})
     nameField.val('')
+    return false
 
   render: ->
     projects = app.collections.projects.fetch()

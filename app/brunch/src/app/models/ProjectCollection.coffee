@@ -1,5 +1,5 @@
 class ProjectCollection extends Backbone.Collection
 
-  model: ProjectModel
-  
+  this.model = ProjectModel
+
   url: 'http://localhost:4567/projects'  

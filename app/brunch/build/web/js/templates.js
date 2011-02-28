@@ -1,4 +1,4 @@
-(function(){window.app.templates = {};window.app.templates.header = function(__obj) {
+(function(){window.app.templates = {};window.app.templates.newProjectForm = function(__obj) {
   if (!__obj) __obj = {};
   var __out = [], __capture = function(callback) {
     var out = __out, result;
@@ -37,7 +37,7 @@
   }
   (function() {
     (function() {
-      __out.push('<div class=\'header\'>\n\t<div class=\'title\'>\n\t\t<h1>Writehelper</h1>\n\t</div>\n\t<div class=\'menu\'>\n\t\t<ul id=\'topMenu\'>\n\t\t\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n');
+      __out.push('<div id=\'new-project-form\' name=\'newProject\'>\n  <p><label for="projectName">Name</label><input type=\'text\' name=\'projectName\' /></p>\n  <p><input type=\'submit\' name=\'projectSubmit\' id=\'project-submit\' value=\'Create project\'/></p>\n</div>\n');
     }).call(this);
     
   }).call(__obj);
@@ -88,7 +88,7 @@
   }).call(__obj);
   __obj.safe = __objSafe, __obj.escape = __escape;
   return __out.join('');
-};window.app.templates.newProjectForm = function(__obj) {
+};window.app.templates.header = function(__obj) {
   if (!__obj) __obj = {};
   var __out = [], __capture = function(callback) {
     var out = __out, result;
@@ -127,7 +127,7 @@
   }
   (function() {
     (function() {
-      __out.push('<form id=\'new-project-form\' method=\'post\' action=\'#\' name=\'newProject\' onsubmit =\'return false\'>\n  <p><label for="projectName">Name</label><input type=\'text\' name=\'projectName\' /></p>\n  <p><input type=\'submit\' name=\'projectSubmit\' id=\'project-submit\' value=\'Create project\'/></p>\n</form>\n');
+      __out.push('<div class=\'header\'>\n\t<div class=\'title\'>\n\t\t<h1>Writehelper</h1>\n\t</div>\n\t<div class=\'menu\'>\n\t\t<ul id=\'topMenu\'>\n\t\t\t\t\t\n\t\t</ul>\n\t</div>\n</div>\n');
     }).call(this);
     
   }).call(__obj);

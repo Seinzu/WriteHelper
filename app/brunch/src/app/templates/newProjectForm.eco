@@ -1,4 +1,4 @@
-<form id='new-project-form' method='post' action='#' name='newProject' onsubmit ='return false'>
+<div id='new-project-form' name='newProject'>
   <p><label for="projectName">Name</label><input type='text' name='projectName' /></p>
   <p><input type='submit' name='projectSubmit' id='project-submit' value='Create project'/></p>
-</form>
+</div>
